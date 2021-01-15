@@ -43,3 +43,24 @@ func insertionSort(_ array: inout [Int]) {
         }
     }
 }
+
+func quickSort(_ array: [Int]) -> [Int] {
+    if array.count <= 1 {
+        return array
+    }
+    
+    let pivot = array[0]
+    var left: [Int] = []
+    var right: [Int] = []
+    
+    for index in 1..<array.count {
+        if pivot > array[index]  {
+            left.append(array[index])
+        } else {
+            right.append(array[index])
+        }
+    }
+    
+    return Array(quickSort(left) + [pivot] + quickSort(right))
+}
+

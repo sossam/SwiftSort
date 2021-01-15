@@ -64,3 +64,40 @@ func quickSort(_ array: [Int]) -> [Int] {
     return Array(quickSort(left) + [pivot] + quickSort(right))
 }
 
+func mergeSort(_ array: [Int]) -> [Int] {
+    if array.count <= 1 {
+        return array
+    }
+    
+    func merge(left: [Int], right: [Int]) -> [Int] {
+        var result: [Int] = []
+        var index = (left: 0, right: 0)
+        
+        while index.left < left.count && index.right < right.count {
+            if left[index.left] < right[index.right] {
+                result.append(left[index.left])
+                index.left += 1
+            } else {
+                result.append(right[index.right])
+                index.right += 1
+            }
+        }
+        
+        if index.left < left.count {
+            result.append(contentsOf: left[index.left..<left.count])
+        }
+        
+        if index.right < right.count {
+            result.append(contentsOf: right[index.right..<right.count])
+        }
+        
+        return result
+    }
+    
+    let center = array.count / 2
+    let left = Array(array[0..<center])
+    let right = Array(array[center..<array.count])
+    
+    return merge(left: mergeSort(left), right: mergeSort(right))
+}
+

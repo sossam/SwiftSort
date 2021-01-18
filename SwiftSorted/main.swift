@@ -65,39 +65,36 @@ func quickSort(_ array: [Int]) -> [Int] {
 }
 
 func mergeSort(_ array: [Int]) -> [Int] {
-    if array.count <= 1 {
-        return array
-    }
+    if array.count <= 1 { return array }
+    let center = array.count / 2
+    let left = Array(array[0..<center])
+    let right = Array(array[center..<array.count])
     
-    func merge(left: [Int], right: [Int]) -> [Int] {
+    func merge(_ left: [Int],_ right: [Int]) -> [Int] {
+        var left = left
+        var right = right
         var result: [Int] = []
-        var index = (left: 0, right: 0)
         
-        while index.left < left.count && index.right < right.count {
-            if left[index.left] < right[index.right] {
-                result.append(left[index.left])
-                index.left += 1
+        while !left.isEmpty && !right.isEmpty {
+            if left[0] < right[0] {
+                result.append(left.removeFirst())
             } else {
-                result.append(right[index.right])
-                index.right += 1
+                result.append(right.removeFirst())
             }
         }
         
-        if index.left < left.count {
-            result.append(contentsOf: left[index.left..<left.count])
+        // 왼쪽 배열의 요소가 남은 경우
+        if !left.isEmpty {
+            result.append(contentsOf: left)
         }
         
-        if index.right < right.count {
-            result.append(contentsOf: right[index.right..<right.count])
+        // 오른쪽 배열의 요소가 남은 경우
+        if !right.isEmpty {
+            result.append(contentsOf: right)
         }
         
         return result
     }
     
-    let center = array.count / 2
-    let left = Array(array[0..<center])
-    let right = Array(array[center..<array.count])
-    
-    return merge(left: mergeSort(left), right: mergeSort(right))
+    return merge(mergeSort(left), mergeSort(right))
 }
-

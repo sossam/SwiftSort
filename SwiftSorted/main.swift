@@ -45,24 +45,15 @@ func insertionSort(_ array: inout [Int]) {
 }
 
 func quickSort(_ array: [Int]) -> [Int] {
-    if array.count <= 1 {
-        return array
-    }
+    guard let first = array.first, array.count > 1 else { return array }
+ 
+    let pivot = first
+    let left = array.filter { $0 < pivot }
+    let right = array.filter { $0 > pivot }
     
-    let pivot = array[0]
-    var left: [Int] = []
-    var right: [Int] = []
-    
-    for index in 1..<array.count {
-        if pivot > array[index]  {
-            left.append(array[index])
-        } else {
-            right.append(array[index])
-        }
-    }
-    
-    return Array(quickSort(left) + [pivot] + quickSort(right))
+    return quickSort(left) + [pivot] + quickSort(right)
 }
+
 
 func mergeSort(_ array: [Int]) -> [Int] {
     if array.count <= 1 { return array }
